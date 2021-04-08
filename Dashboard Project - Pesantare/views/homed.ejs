@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<%- include('part/head') %>
+</head>
+<body oncontextmenu="return false;">
+	
+	<%- include('part/edgehelp.ejs') %>
+	<div class="container mb-0" style="padding:0; max-width:1000px">
+		<div class="pt-3 text-center">
+			<img class="d-block mx-auto mt-5 mb-5" src="/img/logopesantare.png" alt="" width="400px">
+
+			<section class="jumbotron text-center" style="background-color:transparent; padding-top:2rem; padding-bottom:0rem;">
+				<div class="container" style="color:black">
+					<h1 class="jumbotron-heading" style="font-size: 24px; line-height: 24px;">
+						Dashboard
+					</h1><br>
+				</div>
+            <small class="text-muted">
+                Halo.. <b><%- locals.admin %>!</b>, Selamat datang di halaman Home Dashboard Pesantare.
+            </small>
+			</section>
+            
+		</div>
+		<!-- </center> -->
+		<br>
+		<!-- Footer -->
+		<%- include('part/footer') %>
+		<!-- Nav Bottom -->
+		<%- include('part/cd-nav') %>
+    </div>
+
+<script src="/js/jquery-3.4.1.slim.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/holder.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+</body>
+</html>
