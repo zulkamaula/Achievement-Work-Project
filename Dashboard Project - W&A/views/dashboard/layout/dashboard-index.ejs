@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html translate="no">
+
+<head>
+  <%- include('../partials/head'); %>
+  <style>
+    .smart-scroll{
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+    }
+    .scrolled-down{
+      transform:translateY(-100%); transition: all 0.3s ease-in-out;
+    }
+    .scrolled-up{
+      transform:translateY(0); transition: all 0.3s ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+  <div class="wrapper">
+
+    <!--** Navbar -->
+    <%- include('../partials/navbar'); %>
+    <!--** /.navbar -->
+
+    <!--** Main Sidebar Container, Sidebar, Sidebar Menu -->
+    <%- include('../partials/sidebar'); %>
+    <!--** /.sidebar -->
+
+    <!--** Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="background-color: #fdf3e3;">
+      <!--** Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2 justify-content-center">
+
+            
+              <!--** CARD -->
+              <div class="col-md-5 col-sm-9 col-lg-4">
+                <div class="info-box" style="color: #663d45; background-color: #fff8ed">
+
+                  <span class="info-box-icon p-1">
+                    <img src="/img/favicon-32x32.png" alt="favico"/>
+                  </span>
+
+
+                  <div class="info-box-content justify-content-center">
+                    <span class="text-sm text-center">
+                      <small> Selamat datang di halaman Dashboard </small>
+                    </span>
+                    
+                    <span
+                      class="info-box-text text-center font-weight-bold text-uppercase"
+                      id="nik"
+                    >
+                    <%= locals.nik %>
+                    &nbsp; - &nbsp;
+                    <% if(locals.kcabang!=null) { %>
+                        <%= locals.ncabang %> 
+                    <% } else { %> 
+                        <%= locals.nama %>
+                        (<%= locals.ndivisi %>) 
+                    <% } %>
+                    </span>
+                  </div>
+
+                  <span class="info-box-icon p-1">
+                    <img src="/img/favicon-32x32.png" alt="favico" />
+                  </span>
+            
+                  <!--** /.info-box-content -->
+                </div>
+                <!--** /.info-box -->
+                </div>
+                <!--** /.CARD -->
+          </div>
+        </div>
+        <!--** /.container-fluid -->
+      </div>
+      <!--** /.content-header -->
+
+      <!-- MAIN CONTENT -->
+      <section class="content">
+        <div class="container-fluid">
+
+          <!-- MAIN ROW -->
+          <div class="row justify-content-center">
+
+            <!-- LEFT COL - LINE CHART Section -->
+            <section class="col-lg-10 col-md-8 col-sm-8 connectedSortable">
+
+              <!-- LINE CHART -->
+              <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center border-bottom">
+
+                <h3 style="color:#663d45;">Graphic - Store Point</h3>
+
+                <div class="btn-toolbar">
+                  <!-- DROPDOWN MENU -->
+                  <div class="btn-group mb-3 ">
+
+                    <!--** Tombol Pilih Waktu -->
+                    <div class="tab mr-2">
+                      <div class="input-group">
+                        <select class="custom-select" id="seltime" name="namawaktu" onchange="crosscheckW()">
+                          <option disabled selected> Pilih Periode Waktu </option>
+                          <hr>  
+                          <% //console.log("periode: ", period); %>
+                          <option value="week" <% if(period=="week") {%> selected <% } %> >
+                              &nbsp;&nbsp;&nbsp;
+                                MINGGU INI
+                            </option>
+
+                            <option value="month" <% if(period=="month") {%> selected <% } %> >
+                              &nbsp;&nbsp;&nbsp;
+                                BULAN INI
+                            </option>
+
+                            <option value="year" <% if(period=="year") {%> selected <% } %>>
+                              &nbsp;&nbsp;&nbsp;
+                                TAHUN INI
+                            </option>
+
+                        </select>
+                        <input type="hidden" id="selhidden" value="<%= kstore %>" required>
+                      </div>
+                    </div>
+              
+
+                    <% if(locals.nik=='56282' || locals.nik=='55742' || locals.nik=='42611' || locals.nik=='30862' || locals.nik=='56359' || locals.nik=='56360'){ %>
+                    <!-- Tombol Pilih Store -->
+                    <div class="tab">
+                        <div class="input-group">
+                          <select class="custom-select" id="selstore" name="namastore" onchange="crosscheck()">
+                            <option value="" disabled selected>Pilih Store </option>
+                            <hr>
+                            <% for (var s in cc2) {%>
+                            <option value="<%= cc2[s].STORE_ID %>" <% if(cc2[s].STORE_ID==kstore) {%> selected<% } %> >&nbsp;&nbsp;&nbsp;<%= cc2[s].STORE_NAME %></option><% } %>
+                          </select>
+                          <input type="hidden" id="selhidden" value="<%= kstore %>" required>
+                        </div>
+                      </div>
+                      <% } %>
+
+                      <!--** AWAL BADGE STORE -->
+                      <% if(locals.kcabang!=null && locals.kdivisi=='OPR' && locals.kcabang.substring(0,1)=='C') { %>
+                      <div class="badge badge-pill mr-2 pl-3 pr-3" style="color:#fdf3e3fb; background-color:#ca9746c4;">    
+                          <%= locals.ncabang %>
+                      <br>
+                          <span class="badge badge-pill mt-1" style="color: #663d45; background-color: #fff8ed">
+                          <%= locals.nik %> 
+                          </span>
+                      </div>
+                      <% } %>
+                      <!--* AKHIR BADGE STORE  -->
+
+                      
+                  </div>
+                  <!-- /. END DROPDOWN -->
+                 
+                </div>
+              </div>
+              <canvas class="my-4" id="myChart" width="90px" height="30px"></canvas>
+            </section>
+            <!--** /.LINE CHART Section -->
+          
+          </div>
+          <!--** /.row (main row) -->
+
+          <!--** TABLE -->
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+
+                  <div class="card">
+                    <div class="card-header" style="color:#663d45c9; background-color:#fdf3e3c9;">
+                      <h3 class="card-title">Data Table - Store Point on W&A</h3>
+                    </div>
+                    <!--** /.card-header -->
+
+                    <!--** CARD BODY -->
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card-body" style="background-color: #fcf6ec;">
+                          <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    
+                            <!--** TABLE -->
+                            <div class="row">
+                              <div class="col-sm-12">
+  
+                                <div class="table-responsive">
+                                  <table id="table-dashboard-wa" class="table table-bordered table-hover" style="background-color: #fdf3e3ec;">
+                                    
+                                    <thead>
+                                      <tr role="row" style="color: #663d45; background-color: #ca9746c4;">
+                                        
+                                        <th class="col-1">
+                                          NO.
+                                        </th>
+                                        <th>STORE NAME</th>
+                                        <th>TIMELINE</th>
+                                        <th>STORE POINT</th>
+                                        <th>ACTION</th>
+                                
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <% 
+                                      var no = 1;
+                                      var tanggal = []; 
+                                      var nilai_pjs = [];
+                                      
+                                      var nilai_store_pakubuwono = [];
+                                      var nilai_store_kebonsirih = [];
+                                      var nilai_store_tanahabang = [];
+                                      var nilai_store_salemba = [];
+
+                                      for(r in results) { 
+                                        
+                                        var bulan = parseInt(results[r].MONTH); 
+                                        tanggal.push (`\'` + results[r].YEAR + '-' + bulan + '-' + results[r].DATE+`\'`);
+
+                                        <!--! STORE_NAME & POINT if set PJS  -->
+
+                                        nilai_pjs.push(results[r].STORE_POINT);
+                                        nama_pjs = (`\'` + results[r].STORE_NAME + `\'`);
+
+                                        <!--! / END STORE_NAME & POINT if set PJS  -->
+
+                                        if (results[r].STORE_ID=="C01"){
+                                          nilai_store_pakubuwono.push(results[r].STORE_POINT);
+                                        } else if (results[r].STORE_ID=="C05") {
+                                          nilai_store_kebonsirih.push(results[r].STORE_POINT);
+                                        } else if (results[r].STORE_ID=="C06") {
+                                          nilai_store_tanahabang.push(results[r].STORE_POINT);
+                                        } else if (results[r].STORE_ID=="C08") {
+                                          nilai_store_salemba.push(results[r].STORE_POINT);
+                                        }
+
+                                        if(results[r].STORE_ID==kstore && kstore!=0 && locals.kdivisi=='OPR' && locals.kcabang==kstore){ 
+                                        
+                                      %>
+                                      <tr>
+                                        <td> <%= no++ %> </td>
+                                        <td>
+                                          <%= '(' + results[r].STORE_ID + ') ' + results[r].STORE_NAME %>
+                                        </td>
+                                        <td>
+                                          <%= results[r].YEAR + '-' + bulan + '-' + results[r].DATE %>
+                                        </td>
+                                        <td>
+                                          <%= results[r].STORE_POINT %>
+                                        </td>
+                                        <td>
+                                          
+                                        
+                                          <a href="dashboard/detail/<%= results[r].STORE_ID %>/<%= results[r].YEAR + '-' + bulan + '-' + results[r].DATE %>" class="btn btn-outline-info btn-sm" value="<%= results[r].YEAR + '-' + bulan + '-' + results[r].DATE %>" target="_blank">
+                                            Point Details
+                                          </a>
+
+                                        </td>
+                                      </tr>
+                                      <% } else { %>
+                                        <tr>
+                                          <td> <%= no++ %> </td>
+                                          <td>
+                                            <%= '(' + results[r].STORE_ID + ') ' + results[r].STORE_NAME %>
+                                          </td>
+                                          <td>
+                                            <%= results[r].YEAR + '-' + bulan + '-' + results[r].DATE %>
+                                          </td>
+                                          <td>
+                                            <%= results[r].STORE_POINT %>
+                                          </td>
+                                          <td>
+                                          
+                                            <a href="dashboard/detail/<%= results[r].STORE_ID %>/<%= results[r].YEAR + '-' + bulan + '-' + results[r].DATE %>" class="btn btn-outline-info btn-sm" value="<%= results[r].YEAR + '-' + bulan + '-' + results[r].DATE %>" target="_blank">
+                                              Point Details
+                                            </a>
+                                        
+                                          </td>
+                                        </tr>
+                                     <% }} %>
+                                      </tbody>
+                                      <tfoot>
+                                        <tr style="color: #663d45; background-color: #ca9746c4;">
+  
+                                          <th>NO.</th>
+                                          <th>STORE NAME</th>
+                                          <th>TIMELINE</th>
+                                          <th>STORE POINT</th>
+                                          <th>ACTION</th>
+  
+                                        </tr>
+                                      </tfoot>
+                                    </table>
+                                </div>
+                                
+                                </div>
+                              </div>
+                              <!--** /. END TABLE -->
+
+                            </div>
+
+                          </div>
+                          <!--** /.card-body -->
+                        </div>
+                      </div>
+                      <!--** /.end CARD BODY -->
+                    </div>
+                    <!--** /.card -->
+
+                    </section>
+                  </div>
+                  </div>
+                  </div>
+                  <!--** /.table -->
+
+                  </div>
+                  <!--** /.container-fluid -->
+                  </section>
+                  <!--** /.CONTENT -->
+                  </div>
+                  <!--** /.content-wrapper -->
+
+  <!--** Footer & Script -->
+  <%- include('../partials/footer'); %>
+  <!--** /.footer -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+  <!--** LINK SCRIPT -->
+  <%- include('../partials/link-script'); %>
+  <!--* AKHIR LINK SCRIPT -->
+
+<!--** DATA LOAD -->
+<script>
+  function crosscheck() { 
+
+      storeid=document.getElementById("selhidden").value;
+      selstore=document.getElementById("selstore").value;
+      time=document.getElementById("seltime").value;
+
+      location.replace("?store_id="+selstore+"&period="+time);
+  }
+
+  function crosscheckW() {
+      kstore=document.getElementById("selhidden").value;
+      time=document.getElementById("seltime").value;
+
+      location.replace("?store_id="+kstore+"&period="+time);
+  }
+</script>
+
+<!--** GRAFIK SCRIPT -->
+<script>
+    /* globals Chart:false, feather:false */
+    (function () {
+      'use strict'
+
+      feather.replace()
+
+      // GRAPH CORE
+      var ctx = document.getElementById('myChart');
+
+      // var nama_store = "";
+      //   count = 0;
+      //   for(r in results) {
+      //     if (results[r].NAMA_STORE==results[r].NAMA_STORE || results[r].NAMA_STORE!==results[r].NAMA_STORE){
+      //       nama_store = results[r].NAMA_STORE;
+      //       count += 1;
+      //     } 
+      //   };
+
+      // DATA-CHART if set PJS 
+      <% if (locals.kdivisi=='OPR' && locals.kcabang.substring(0,1)=='C') { %>
+        
+        var data0 = {
+              label: [<%- nama_pjs %>],
+              data: [<%- nilai_pjs %>],
+              lineTension: 0,
+              backgroundColor: 'transparent',
+              borderColor: '#663d45',
+              borderWidth: 4,
+              pointBackgroundColor: '#C79645',
+              pointRadius: 5,
+              pointHoverRadius: 7,
+              pointHitRadius: 60,
+        }
+        var myChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: [<%- tanggal %>],
+                datasets: [data0]
+              },
+              options: {
+                scales: {
+                  yAxes: [{
+                    ticks: {
+                      beginAtZero: false
+                    }
+                  }]
+                },
+                legend: {
+                  display: true
+                }
+              }
+            });
+      <% } %>
+    
+      // DATA-CHART if set HO
+      <% if(locals.nik=='56282' || locals.nik=='55742' || locals.nik=='42611' || locals.nik=='30862' || locals.nik=='56359' || locals.nik=='56360') { %>
+      var data1 = {
+            label: ["SKS - PAKUBUWONO"],
+            data: [<%- nilai_store_pakubuwono %>],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#C79645',
+            borderWidth: 4,
+            pointBackgroundColor: '#663d45',
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointHitRadius: 60,
+      }
+      var data2 = {
+            label: ["SKS - KEBON SIRIH"],
+            data: [<%- nilai_store_kebonsirih %>],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#F08080',
+            borderWidth: 4,
+            pointBackgroundColor: 'pink',
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointHitRadius: 60,
+      }
+      var data3 = {
+            label: ["SKS - TANAH ABANG"],
+            data: [<%- nilai_store_tanahabang %>],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#6495ED',
+            borderWidth: 4,
+            pointBackgroundColor: '#87CEFA',
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointHitRadius: 60,
+      }
+      var data4 = {
+            label: ["SKS - SALEMBA"],
+            data: [<%- nilai_store_salemba %>],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#8FBC8F',
+            borderWidth: 4,
+            pointBackgroundColor: '#556B2F',
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointHitRadius: 60,
+      }
+      // eslint-disable-next-line no-unused-vars
+      var myChart = new Chart(ctx, {
+        
+        type: 'line',
+        data: {
+          labels: [<%- tanggal %>],
+          datasets: [data1, data2, data3, data4]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          },
+          legend: {
+            display: true
+          }
+        }
+      })
+    <% } %>
+
+    }());
+</script>
+
+<!--** TABEL SCRIPT -->
+<script>
+  $(function() {
+    $('#table-dashboard-wa').DataTable({
+      responsive: true,
+      autoWidth: false,
+      paging: true,
+      lengthChange: false,
+      info: true,
+      ordering: true,
+      search: true,
+    });
+});
+</script>
+
+<script>
+  // add padding top to show content behind navbar
+$('body').css('padding-top', $('.navbar').outerHeight() + 'px');
+
+// detect scroll top or down
+if ($('#masthead').length > 0) { 
+  // check if element exists
+    var last_scroll_top = 0;
+    $(window).on('scroll', function() {
+        scroll_top = $(this).scrollTop();
+        if(scroll_top < last_scroll_top) {
+            $('#masthead').removeClass('scrolled-down').addClass('scrolled-up');
+        }
+        else {
+            $('#masthead').removeClass('scrolled-up').addClass('scrolled-down');
+        }
+        last_scroll_top = scroll_top;
+    });
+}
+</script>
+
+</body>
+
+</html>

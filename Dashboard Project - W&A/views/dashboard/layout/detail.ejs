@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html translate="no">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper">
+
+        <!--** Navbar -->
+        <%- include('../partials/navbar'); %>
+        <!--** /.navbar -->
+
+        <!--** Main Sidebar Container, Sidebar, Sidebar Menu -->
+        <%- include('../partials/sidebar'); %>
+        <!--** /.sidebar -->
+
+        <!--** Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="background-color: #fdf3e3;">
+            <!--** Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2 justify-content-center">
+
+
+                        <!--** CARD -->
+                        <div class="col-md-5 col-sm-9 col-lg-4">
+                            <div class="info-box" style="color: #663d45; background-color: #fff8ed">
+
+                                <span class="info-box-icon p-1">
+                                    <img src="/img/favicon-32x32.png" alt="favico"/>
+                                </span>
+
+
+                                <div class="info-box-content justify-content-center">
+                                    <span class="text-sm text-center">
+                                        <small> Selamat datang di halaman Detail Points </small>
+                                    </span>
+
+                                    <span class="info-box-text text-center font-weight-bold text-uppercase" id="nik">
+                                    <%#= '(' + locals.nik + ')' %> 
+                                 
+                                    <%= locals.nama %>
+                                    &nbsp; - &nbsp;
+                                    <% if(locals.kcabang!=null) { %>
+                                    <%= locals.ncabang %> 
+                                    <% } else { %> 
+                                        (<%= locals.ndivisi %>) 
+                                    <% } %>
+                                    </span>
+                                </div>
+
+                                <span class="info-box-icon p-1">
+                                    <img src="/img/favicon-32x32.png" alt="favico"/>
+                                </span>
+
+                                <!--** /.info-box-content -->
+                            </div>
+                            <!--** /.info-box -->
+                        </div>
+                        <!--** /.CARD -->
+                    </div>
+                </div>
+                <!--** /.container-fluid -->
+            </div>
+            <!--** /.content-header -->
+
+            <!--** MAIN CONTENT -->
+            <section class="content connectedSortable">
+                <div class="container-fluid">
+                    <!--** MAIN ROW TABLE -->
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10 col-md-8 col-sm-12">
+                            <!--** CARD HEADER TABLE  -->
+                            <div class="card">
+                                <div class="card-header" style="color:#663d45c9; background-color:#fdf3e3c9;">
+                                    <h3 class="card-title">
+                                        <b>
+                                            DETAIL STORE POINT
+                                        </b>
+                                        &nbsp;
+                                        <i class="fas fa-arrow-right"></i>
+                                        &nbsp;
+                                        <%= rs[0].STORE_NAME %> &nbsp;:&nbsp;
+                                        <u>
+                                            <%= rs[0].YEAR + ' - ' + rs[0].MONTH + ' - ' + rs[0].DATE %>
+                                        </u>
+                                    </h3>
+                                </div>
+
+                                <!--** ROW TABLE -->
+                                <div class="row">
+                                    <!--** COL-BODY-TABLE  -->
+                                    <div class="col-sm-12">
+                                        <!--** CARD-BODY TABLE -->
+                                        <div class="card-body" style="background-color: #fcf6ec;">
+                                            <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                                <!--** ROW MAIN TABLE -->
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="table-responsive">
+                                                            <table id="table-dashboard-wa"
+                                                                class="table table-bordered table-hover"
+                                                                style="background-color: #fdf3e3ec;">
+                                                                <thead>
+                                                                    <tr role="row"
+                                                                        style="color: #663d45; background-color: #ca9746c4;">
+                                                                        <th class="col-1">NO.</th>
+                                                                        <th>GROUP ID</th>
+                                                                        <th>GROUP POINT</th>
+                                                                        <th>GOOD POINT</th>
+                                                                        <th>BAD POINT</th>
+                                                                        <th>WARNING POINT</th>
+                                                                        <th>TOTAL</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% var no = 1; for(d in rs) { %>
+                                                                    <tr>
+                                                                        <td><%= no++ %></td>
+                                                                        <td><%= rs[d].GROUP_ID %></td>
+                                                                        <td><%= rs[d].GROUP_POINT %></td>
+                                                                        <td><%= rs[d].GOOD %></td>
+                                                                        <td><%= rs[d].BAD %></td>
+                                                                        <td><%= rs[d].WARNING %></td>
+                                                                        <td><%= rs[d].TOTAL_CL %></td>
+                                                                    </tr>
+                                                                    <% } %>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr
+                                                                        style="color: #663d45; background-color: #ca9746c4;">
+                                                                        <th class="col-1">NO.</th>
+                                                                        <th>GROUP ID</th>
+                                                                        <th>GROUP POINT</th>
+                                                                        <th>GOOD POINT</th>
+                                                                        <th>BAD POINT</th>
+                                                                        <th>WARNING POINT</th>
+                                                                        <th>TOTAL</th>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--* END ROW MAIN TABLE -->
+                                            </div>
+                                            <!--* END WRAPPER MAIN TABLE -->
+                                        </div>
+                                        <!--* END CARD-BODY TABLE -->
+                                    </div>
+                                    <!--* END COL-BODY-TABLE  -->
+                                </div>
+                                <!--* END ROW TABLE -->
+
+                                <!--* AKHIR COL-MAIN-TABLE -->
+                            </div>
+                            <!--* AKHIR ROW  -->
+                        </div>
+                        <!--* AKHIR MAIN ROW TABLE-->
+                    </div>
+                    <!--* AKHIR CONTENT WRAPPER - (Contains page content) -->
+                </div>
+                <!--* AKHIR MAIN CONTENT - (container-fluid) -->
+            </section>
+            <!--* AKHIR SECTION -->
+        </div>
+        <!--* AKHIR WRAPPER -->
+
+        <!--** Footer & Script -->
+        <%- include('../partials/footer'); %>
+        <!--** /.footer -->
+
+        <!--** LINK SCRIPT -->
+        <%- include('../partials/link-script'); %>
+        <!--* AKHIR LINK SCRIPT -->
+
+        <!--** TABEL SCRIPT -->
+        <script>
+            $(function () {
+                $('#table-dashboard-wa').DataTable({
+                    responsive: true,
+                    autoWidth: false,
+                    paging: true,
+                    lengthChange: false,
+                    info: true,
+                    ordering: true,
+                    search: true,
+                });
+            });
+        </script>
+
+</body>
+
+</html>

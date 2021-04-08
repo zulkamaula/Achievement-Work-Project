@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html translate="no">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+<div class="wrapper">
+
+    <!--** Navbar -->
+    <%- include('../partials/navbar'); %>
+    <!--** /.navbar -->
+
+    <!--** Main Sidebar Container, Sidebar, Sidebar Menu -->
+    <%- include('../partials/sidebar'); %>
+    <!--** /.sidebar -->
+
+    <!--** Content Wrapper. Contains page content -->
+    <main role="main" class="container">
+        <div class="jumbotron bg-white">
+            <p>
+                <img class="img-fluid mx-auto d-block" alt="Responsive image" src="/img/logo.png">
+            </p>
+        </div>
+        <hr>
+        <p class="lead text-sm text-center text-muted">Selamat datang di Home Dashboard,    
+		<!-- <p class="text-center" style="color:#C79645" id="nik"> -->
+            <span style="color:#c79645" id="nik">
+                    <b>
+                        <%= locals.nik %>
+                        &nbsp;-&nbsp;
+                        <% if(locals.kcabang!=null) { %>
+                                (<%= locals.ncabang %>) 
+                        <%} else {%> 
+                                <%= locals.nama %>
+                                (<%= locals.ndivisi %>) 
+                        <% } %>
+                    </b>
+            </span>
+        </p> 
+    </main>
+    <!--** /.content-wrapper -->
+
+  <!--** Footer & Script -->
+  <!--** /.footer -->
+
+    <!-- Control Sidebar -->
+    <!-- <aside class="control-sidebar control-sidebar-dark"> -->
+        <!-- Control sidebar content goes here -->
+    <!-- </aside> -->
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!--** LINK SCRIPT -->
+<%- include('../partials/link-script'); %>
+<!--* AKHIR LINK SCRIPT -->
+
+
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!-- Main Sidebar Container -->
+<aside
+  class="main-sidebar sidebar-dark-light elevation-4"
+  style="color: #f5f5f5; background-color: #663d45"
+>
+  <!-- Brand Logo -->
+  <a
+    href="#"
+    class="brand-link text-sm"
+    style="color: #f5f5f5; background-color: #7e535c"
+  >
+    <img
+      src="/img/icon.png"
+      alt="Sarirasa Icon"
+      class="brand-image img-circle elevation-3"
+      style="opacity: 0.8"
+    />
+    <span class="brand-text font-weight-light">Sarirasa W&A | Dashboard</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar Menu -->
+    <nav class="mt-3">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column nav-child-indent"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        <!-- Add icons to the links using the .nav-icon class
+       with font-awesome or any other icon font library -->
+       <li class="nav-item">
+        <!-- <a href="/dashboard/home" class="nav-link"> -->
+          <a <%if (page_name==='home') { %> class="nav-link active" <% } else { %> class="nav-link" <% } %> href="/dashboard/home">
+          <i class="nav-icon fas fa-home"></i>
+          <p>
+            Home
+            <!-- <i class="right fas fa-angle-left"></i> -->
+          </p>
+        </a>
+      </li>
+
+        <li class="nav-item">
+          <a <%if (page_name==='dashboard') { %> class="nav-link active" <% } else { %> class="nav-link" <% } %> href="/dashboard?store_id=<%= kcabang %>&period=year">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Dashboard
+              <!-- <i class="right fas fa-angle-left"></i> -->
+            </p>
+          </a>
+        </li>
+        
+        <!-- 3/18/2021 -->
+        <% if(locals.nik=='56282' || locals.nik=='55742' || locals.nik=='42611' || locals.nik=='30862' || locals.nik=='56359' || locals.nik=='56360' && page_name==="dashboard") { %>
+        <li class="nav-header">MAIN MENU</li>
+        <!--** TREEVIEW LIST STORE -->
+        <li class="nav-item has-treeview">
+        <a class="nav-link" href="#" id="list-s">
+          <i class="nav-icon fas fa-list-alt"></i>
+            <p>
+              List Store Points
+              &emsp;
+              &emsp;
+              &nbsp;
+              <i class="right fas fa-angle-left" id="#view-s"></i>
+              <!-- <i class="fas fa-caret-left" id="view-s"></i> -->
+            </p>
+          </a>
+          
+          <ul class="nav nav-treeview">
+            <% for( var s in cc2) { %>
+            <li class="nav-item text-sm">
+              <a href="/dashboard?store_id=<%= cc2[s].STORE_ID %>&period=year" class="nav-link">
+                <i class="nav-icon fas fa-store text-sm"></i>
+                  <p>
+                    <%= cc2[s].STORE_NAME %>
+                  </p>
+                </a>
+              </li>
+              <% } %>
+          </ul>
+
+        </li>
+        <% } %>
+
+        <% if(page_name=="detail") { %>
+        <li class="nav-header">MISCELLANEOUS</li>
+        <li class="nav-item mb-2">
+          <a <%if (page_name==='detail') { %> class="nav-link active" <% } else { %> class="nav-link" <% } %> >
+            <i class="nav-icon fas fa-info-circle text-md"></i>
+            <p>
+              Detail Point
+              <!-- <i class="right fas fa-angle-left"></i> -->
+            </p>
+          </a>
+        </li>
+        <% } %>
+
+        <br />
+        <li class="nav-item mt-5">
+          <a href="/beranda" class="nav-link">
+            <i class="nav-icon fas fa-sign-out-alt"></i>
+            <p>Exit</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

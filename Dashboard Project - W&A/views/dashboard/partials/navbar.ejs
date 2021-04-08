@@ -1,0 +1,48 @@
+<nav
+  class="main-header navbar navbar-expand navbar-gray navbar-dark smart-scroll"
+  style="color: #f5f5f5; background-color: #c79645"
+  id="masthead"
+>
+  <!-- Left navbar links -->
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <a class="nav-link" data-widget="pushmenu" href="#" role="button"
+        ><i class="fas fa-bars"></i
+      ></a>
+    </li>
+
+    <% if( page_name=="dashboard" ) { %>
+    <li class="nav-item">
+      <a
+        href="/dashboard/home"
+        class="nav-link"
+        role="button"
+        >Home &emsp;&nbsp; /</a
+      >
+    </li>
+    <% } %>
+
+    <% if( page_name=="detail" ) { %>
+    <li class="nav-item">
+      <a
+        href="/dashboard?store_id=<%= kcabang %>"
+        class="nav-link"
+        role="button"
+        >Dashboard &emsp;&nbsp; /</a
+      >
+    </li>
+    <% } %>
+
+    <% if(title!=null) { %>
+    <li class="nav-item">
+      <a class="nav-link active" role="button"
+        ><u><%= title %></u></a
+      >
+    </li>
+    <% } %>
+
+    <!-- <li class="nav-item"> -->
+
+    <!-- </li> -->
+  </ul>
+</nav>
