@@ -1,0 +1,578 @@
+<script>
+	$(document).ready(function() {
+	$('a.more').click(function() {
+	
+		// Toggle Class
+		$tr = $(this).parent().parent();
+		$tr.toggleClass('expanded');
+		
+		// Tampilkan - sembunyikan baris
+		$i = $(this).children('i');
+		$i.removeClass('fa-chevron-down', 'fa-chevron-up');
+		var arrow = $tr.hasClass('expanded') ? 'fa-chevron-up' : 'fa-chevron-down';
+		$i.addClass(arrow);
+		
+		return false;
+	});
+})
+</script>
+<script>
+	$('.btnHapus').on('click', async function(){
+            let recid = $(this).data('recid');
+
+            $.confirm({
+                title: 'Hapus Data Siswa',
+                content: 'Apakah Anda Yakin...???',
+                buttons: {
+                    ya: {
+                        text: 'YA',
+                        btnClass: 'btn-blue',
+                        action: async function(){
+                            const url = `hapus/${recid}`;
+                            const response = await fetch(url);
+                            const json = await response.json();
+                            $.alert('Data Berhasil dihapus!');
+                            checkStock();
+                        }
+                    },
+                    tidak: function () {
+                        
+                    }
+                }
+            });
+        });
+</script>
+<script>
+	$(document).ready(function() {
+		$('#tborderlist').DataTable({
+			"order": [[ 0, "desc" ]],
+			"pagingType" : "numbers",
+			"language": {
+			"sProcessing": "Sedang memproses...",
+			"sLengthMenu": "_MENU_ data per halaman",
+			"sZeroRecords": "Tidak ditemukan data yang sesuai",
+			"sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+			"sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+			"sInfoFiltered": "(disaring dari _MAX_ data keseluruhan)",
+			"sInfoPostFix": "",
+			"sSearch": "Cari:",
+			"sUrl": "",
+			"oPaginate": {
+			"sFirst": "Pertama",
+			"sPrevious": "Sebelumnya",
+			"sNext": "Selanjutnya",
+			"sLast": "Terakhir"
+			}
+			}
+		});
+	});
+</script>
+<script>
+	var myReload;
+	myReload = setTimeout(function() {
+		window.location.reload(true);
+	}, 300000);
+	function stopReload() {
+		clearTimeout(myReload);
+	}
+</script>
+<script>
+	function finish(recid, telp, nama) {
+		if (confirm("Konfirmasi PENYELESAIAN pesanan no: " + recid + "?")) {
+			window.open('https://wa.me/62'+telp+'?text=Terima+kasih+Bpk%2FIbu+'+nama+'+atas+pesanan+Anda.%0D%0ASelamat+menikmati.+Silahkan+beri+kami+review+menggunakan+link+dibawah+ini%0D%0Ahttps%3A%2F%2Forder.sarirasa.co.id%2Forder%2Fstatus');
+			location.replace("/admin/finish/"+recid);
+		} else {
+			location.replace("/admin/list");
+		}
+	}
+	
+	function batalkan(recid) {
+		var alasan = prompt("Apakah Anda yakin untuk membatalkan pesanan No: " + recid + "? Tulis alasan pembatalan: ", "");
+		alasan.trim();
+		if (alasan==null || alasan=="") {
+			location.replace("/admin/list");
+		} else {
+			location.replace("/admin/batal/"+recid+"/"+alasan);
+		}
+	}
+	
+	function ubahkepickup(recid) {
+		if (confirm("Konfirmasi pesanan no: " + recid + " diubah dari DELIVERY menjadi PICKUP?")) {
+			location.replace("/admin/ubahpickup/"+recid);
+		} else {
+			location.replace("/admin/list");
+		}
+	}
+	
+	function cekUlasan() {
+		var val = document.getElementById("rating").value;
+		
+		if (val!=0) {
+			document.getElementById("saveRating").disabled=false;
+		}else {
+			document.getElementById("saveRating").disabled=true;
+		}
+	}
+	
+	function setRecid(num) {
+		document.getElementById("recid").value=num;
+		stopReload(); 
+	}
+	
+	function validasiJarak() {
+		var jrk = document.getElementById('jarakkm').value;
+		if (jrk>0) {
+			document.getElementById('konfbtn').disabled=false;
+		}
+		else {
+			document.getElementById('konfbtn').disabled=true;
+		}
+	}
+	
+	function updateOngkir() {
+		let nopes = document.getElementById("nopes").value;
+		let jarakkm = document.getElementById("jarakkm").value;
+		document.getElementById('konfbtn').disabled=true;
+		var formData = new FormData();
+		formData.append('nopes', nopes);
+		formData.append('jarakkm', jarakkm);
+		fetch('/admin/updateongkir', {
+			method: 'POST',
+			body: formData
+			})
+		.then((response) => response.text())
+		.then((result) => {
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+	}
+	
+	function checkStock(headerid) {
+		console.log("headerid: "+headerid);
+		var formData = new FormData();
+		formData.append('headerid', headerid);
+		fetch('/order/detail', {
+			method: 'POST',
+			body: formData
+			})
+		.then((response) => response.text())
+		.then((result) => {
+			var rs = JSON.parse(result);
+			var crow=1;
+			var table = document.getElementById("onhandTable");
+			console.log("Result: ");
+			console.log(rs);
+			console.log(rs.length);
+			console.log(typeof(rs));
+			console.log("HAHHAHA");
+			
+			var row;
+			var cell1;
+			var cell2;
+			var cell3;
+			var cell4;
+			var total=0;
+			for (var r in rs) {
+				row = table.insertRow(crow);
+				cell1 = row.insertCell(0);
+				cell2 = row.insertCell(1);
+				cell3 = row.insertCell(2);
+				cell4 = row.insertCell(3);
+				cell1.className = 'pline';
+				cell2.className = 'pline';
+				cell3.className = 'pprice';
+				cell4.className = 'pprice';
+				cell1.innerHTML = "<span class='hd y'>MENU</span>" + rs[r].PRODUK_NAMA;
+				cell2.innerHTML = "<span class='hd'>JUMLAH PESANAN</span>" + rs[r].QUANTITY;
+				cell3.innerHTML = "<span class='hd'>HARGA SATUAN</span>" + "Rp&nbsp;" + rs[r].PRICE_EACH.toLocaleString('id-ID').split(',').join('.');
+				cell4.innerHTML = "<span class='hd'>TOTAL HARGA</span>" + "Rp&nbsp;" + (rs[r].QUANTITY*rs[r].PRICE_EACH).toLocaleString('id-ID').split(',').join('.');
+				total = total+(rs[r].QUANTITY*rs[r].PRICE_EACH);
+				crow++;
+			}
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'price';
+			cell4.className = 'price';
+			cell3.innerHTML = "<strong>PROMO</strong>";
+			cell4.innerHTML = "Rp&nbsp;" + rs[0].PAYMENT_DISCOUNT.toLocaleString('id-ID').split(',').join('.');
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'price';
+			cell4.className = 'price';
+			cell3.innerHTML = "<strong>SUBTOTAL</strong>";
+			cell4.innerHTML = "Rp&nbsp;" + (total-rs[0].PAYMENT_DISCOUNT).toLocaleString('id-ID').split(',').join('.');
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'price';
+			cell4.className = 'price';
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'price';
+			cell4.className = 'price';
+			cell3.innerHTML = "<strong>PAJAK</strong>";
+			cell4.innerHTML = "Rp&nbsp;" + (rs[0].ORDER_TAX*(total-rs[0].PAYMENT_DISCOUNT)/total).toLocaleString('id-ID').split(',').join('.');
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'price';
+			cell4.className = 'price';
+			cell3.innerHTML = "<strong>BIAYA PENGIRIMAN</strong>";
+			cell4.innerHTML = "Rp&nbsp;" + (rs[0].PAYMENT_ONGKIR).toLocaleString('id-ID').split(',').join('.');
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'price';
+			cell4.className = 'price';
+			cell3.innerHTML = "<strong>PACKAGING COST</strong>";
+			cell4.innerHTML = "Rp&nbsp;" + (rs[0].PACKAGING).toLocaleString('id-ID').split(',').join('.');
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell1.className = 'total';
+			cell2.className = 'total';
+			cell3.className = 'total';
+			cell4.className = 'total';
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'pprice';
+			cell4.className = 'pprice';
+			cell3.innerHTML = "<strong>TOTAL</strong>";
+			cell4.innerHTML = "Rp&nbsp;" + rs[0].PAYMENT_TOTAL.toLocaleString('id-ID').split(',').join('.');
+			document.getElementById("nopesananonhand").innerHTML=rs[0].NO_PESANAN;
+			
+			document.getElementById("onhandLoading").style.display="none";
+			document.getElementById("onhandUpload").style.display="block";
+			
+			if (rs[0].ISDELIVERY==0) {
+				document.getElementById("jikaDeliv").style.display="none";
+				document.getElementById("konfbtn").disabled=false;
+			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+	}
+	
+	function getDetail(headerid) {
+		console.log("headerid: "+headerid);
+		var formData = new FormData();
+		formData.append('headerid', headerid);
+		fetch('/order/detailOH', {
+			method: 'POST',
+			body: formData
+			})
+		.then((response) => response.text())
+		.then((result) => {
+			var rs = JSON.parse(result);
+			var crow=1;
+			var table = document.getElementById("detailTable");
+			console.log("Result: ");
+			console.log(rs);
+			console.log(rs.length);
+			console.log(typeof(rs));
+			
+			var row;
+			var cell1;
+			var cell2;
+			var cell3;
+			var cell4;
+			var cell5;
+			var total=0;
+			for (var r in rs) {
+				row = table.insertRow(crow);
+				cell1 = row.insertCell(0);
+				cell2 = row.insertCell(1);
+				cell3 = row.insertCell(2);
+				cell4 = row.insertCell(3);
+				cell5 = row.insertCell(4);
+				cell1.className = 'pline';
+				cell2.className = 'pline';
+				cell3.className = 'pline';
+				cell4.className = 'pprice';
+				cell5.className = 'pprice';
+				cell1.innerHTML = rs[r].PRODUK_NAMA;
+				cell2.innerHTML = rs[r].QUANTITY;
+				cell3.innerHTML = rs[r].ONHAND;
+				cell4.innerHTML = "Rp&nbsp;" + rs[r].PRICE_EACH.toLocaleString('id-ID').split(',').join('.');
+				cell5.innerHTML = "Rp&nbsp;" + (rs[r].QUANTITY*rs[r].PRICE_EACH).toLocaleString('id-ID').split(',').join('.');
+				total = total+(rs[r].QUANTITY*rs[r].PRICE_EACH);
+				crow++;
+			}
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell5 = row.insertCell(4);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'line';
+			cell4.className = 'price';
+			cell5.className = 'price';
+			cell4.innerHTML = "<strong>PROMO</strong>";
+			cell5.innerHTML = "Rp&nbsp;" + rs[0].PAYMENT_DISCOUNT.toLocaleString('id-ID').split(',').join('.');
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell5 = row.insertCell(4);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'line';
+			cell4.className = 'price';
+			cell5.className = 'price';
+			cell4.innerHTML = "<strong>SUBTOTAL</strong>";
+			cell5.innerHTML = "Rp&nbsp;" + (total-rs[0].PAYMENT_DISCOUNT).toLocaleString('id-ID').split(',').join('.');
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell5 = row.insertCell(4);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'line';
+			cell4.className = 'price';
+			cell5.className = 'price';
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell5 = row.insertCell(4);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'line';
+			cell4.className = 'price';
+			cell5.className = 'price';
+			cell4.innerHTML = "<strong>PAJAK</strong>";
+			cell5.innerHTML = "Rp&nbsp;" + (rs[0].ORDER_TAX*(total-rs[0].PAYMENT_DISCOUNT)/total).toLocaleString('id-ID').split(',').join('.');
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell5 = row.insertCell(4);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'line';
+			cell4.className = 'price';
+			cell5.className = 'price';
+			cell4.innerHTML = "<strong>BIAYA PENGIRIMAN</strong>";
+			cell5.innerHTML = "Rp&nbsp;" + (rs[0].PAYMENT_ONGKIR).toLocaleString('id-ID').split(',').join('.');
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell5 = row.insertCell(4);
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'line';
+			cell4.className = 'price';
+			cell5.className = 'price';
+			cell4.innerHTML = "<strong>PACKAGING COST</strong>";
+			cell5.innerHTML = "Rp&nbsp;" + (rs[0].PACKAGING).toLocaleString('id-ID').split(',').join('.');
+			row = table.insertRow(crow++);
+			cell1 = row.insertCell(0);
+			cell2 = row.insertCell(1);
+			cell3 = row.insertCell(2);
+			cell4 = row.insertCell(3);
+			cell5 = row.insertCell(4);
+			cell1.className = 'total';
+			cell2.className = 'total';
+			cell3.className = 'total';
+			cell4.className = 'total';
+			cell5.className = 'total';
+			cell1.className = 'line';
+			cell2.className = 'line';
+			cell3.className = 'line';
+			cell4.className = 'pprice';
+			cell5.className = 'pprice';
+			cell4.innerHTML = "<strong>TOTAL</strong>";
+			cell5.innerHTML = "Rp&nbsp;" + rs[0].PAYMENT_TOTAL.toLocaleString('id-ID').split(',').join('.');
+			if (rs[0].JARAK!=0) {
+				document.getElementById("jarakkm").value=rs[0].JARAK;
+			}
+			document.getElementById("nopesanan").innerHTML=rs[0].NO_PESANAN;
+			document.getElementById("nopes").value=rs[0].NO_PESANAN;
+			document.getElementById("alamatP").value=rs[0].DELIVERY_ADDRESS;
+			document.getElementById("alamatP").value=rs[0].DELIVERY_ADDRESS;
+			document.getElementById("waText").href="https://wa.me/62"+rs[0].TELP+"?text=Terima%20kasih%20Bpk/Ibu%20"+rs[0].NAMA+"%0ASudah%20menggunakan%20layanan%20resmi%20PESANTARE.%0A%0APesanan%20anda%20akan%20segera%20kami%20proses%2C%20setelah%20menyelesaikan%20pembayaran%20melalui%20link%20dibawah%20ini%2C%20pembayaran%20anda%20kami%20tunggu%20dalam%20waktu%2015%20menit.%0A%0Ahttps%3A%2F%2Forder.sarirasa.co.id%2Fpesantare_payment%2F"+rs[0].RECID;
+			document.getElementById("waTanya").href="https://wa.me/62"+rs[0].TELP+"?text=Dear%20Bpk/Ibu%20"+rs[0].NAMA+"%0ATerimakasih%20sudah%20menggunakan%20layanan%20resmi%20PESANTARE.%0A%0A";
+			document.getElementById("ruteP").href="https://www.google.com/maps/dir/'"+ rs[0].LOKASI_KORDINAT +"'/"+ rs[0].DELIVERY_ADDRESS;
+			document.getElementById("kontenLoading").style.display="none";
+			document.getElementById("kontenUpload").style.display="block";
+			
+			if (rs[0].ISDELIVERY==0) {
+				document.getElementById("jikaDeliv").style.display="none";
+				document.getElementById("konfbtn").disabled=false;
+			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+	}
+	
+	function submitRating(that) {
+		let rating = document.getElementById("rating").value;
+		let ulasan = document.getElementById("ulasan").value;
+		let recid = document.getElementById("recid").value;
+		var formData = new FormData();
+		formData.append('rating', rating);
+		formData.append('ulasan', ulasan);
+		formData.append('recid', recid);
+		fetch('/order/rating', {
+			method: 'POST',
+			body: formData
+			})
+		.then((response) => response.text())
+		.then((result) => {
+			location.replace("/order/status");
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+	}
+</script>
+<script>
+	var $star_rating = $('.star-rating .fa');
+	
+	var SetRatingStar = function() {
+		return $star_rating.each(function() {
+			if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+				return $(this).removeClass('fa-star-o').addClass('fa-star');
+			} else {
+				return $(this).removeClass('fa-star').addClass('fa-star-o');
+			}
+		});
+	};
+	
+	$star_rating.on('click', function() {
+		$star_rating.siblings('input.rating-value').val($(this).data('rating'));
+		return SetRatingStar();
+	});
+	
+	SetRatingStar();
+	$(document).ready(function() {
+	
+	});
+</script>
+<script>
+	var status1 = 0;
+	var status2 = 0;
+	var status3 = 0;
+	var status4 = 0;
+	var status5 = 0;
+	var status10 = 0;
+	var svoid = 0;
+	<%
+	var s1=0, s2=0, s3=0, s4=0, s5=0, s10=0, sv=0;
+	if(results.length>0) {
+		for(r in results){
+			if (results[r].IS_VOID==0) {
+				if (results[r].STATUS==1) {
+					s1++;
+				}
+				if (results[r].STATUS==2) {
+					s2++;
+				}
+				if (results[r].STATUS==3) {
+					s3++;
+				}
+				if (results[r].STATUS==4) {
+					s4++;
+				}
+				if (results[r].STATUS==5) {
+					s5++;
+				}
+				if (results[r].STATUS==10) {
+					s10++;
+				}
+			}
+			else if (results[r].IS_VOID==1) {
+				sv++;
+			}
+		} %>
+		status1= <%= s1; %>;
+		status2= <%= s2; %>;
+		status3= <%= s3; %>;
+		status4= <%= s4; %>;
+		status5= <%= s5; %>;
+		status10= <%= s10; %>;
+		svoid= <%= sv; %>;
+	<% } %>
+	
+	// Hard-coded, replace with your public key
+	const publicVapidKey = 'BNss_FEH6mVemCQR2wl2cvlaIhDo-4k6cEG9z3Uuh6GcJ8K_ZIQvE6FgFcYOTsZT88Pxy4ksd5E41e8gtp3JcBg';
+	
+	if ('serviceWorker' in navigator) {
+		run().catch(error => console.error(error));
+	}
+	
+	async function run() {
+		const registration = await navigator.serviceWorker.
+			register('/worker.js', {scope: '/'});
+		
+		const subscription = await registration.pushManager.
+			subscribe({
+				userVisibleOnly: true,
+				applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+			});
+			
+			await fetch('/pingpong/'+ status1 +'/'+ status2 +'/'+ status3 +'/'+ status4 +'/'+ status5 +'/'+ status10 +'/'+ svoid, {
+			method: 'POST',
+			body: JSON.stringify(subscription),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
+	
+	function urlBase64ToUint8Array(base64String) {
+		const padding = '='.repeat((4 - base64String.length % 4) % 4);
+		const base64 = (base64String + padding)
+			.replace(/-/g, '+')
+			.replace(/_/g, '/');
+		
+		const rawData = window.atob(base64);
+		const outputArray = new Uint8Array(rawData.length);
+		
+		for (let i = 0; i < rawData.length; ++i) {
+			outputArray[i] = rawData.charCodeAt(i);
+		}
+		return outputArray;
+	}
+</script>

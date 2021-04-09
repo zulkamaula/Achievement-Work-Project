@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<%- include('../part/head') %>
+</head>
+<body oncontextmenu="return false;">
+	<%- include('../part/edgehelp.ejs') %>
+	<div class="container mb-0" style="padding:0; max-width:1000px">
+		<div class="pt-3 text-center">
+			<img class="d-block mx-auto mt-5 mb-5" src="/img/logopesantare.png" alt="" width="400px">
+			<section class="jumbotron text-center" style="background-color:transparent; padding-top:2rem; padding-bottom:0rem;">
+				<div class="container" style="color:black">
+					<h1 class="jumbotron-heading" style="font-size: 24px; line-height: 24px;">
+						Daftar Order
+					</h1><br>
+				</div>
+			</section>
+			<% if (messages.alert0!=null && messages.alert0!='' ) { %>
+			<div class="alert alert-<%= messages.alert0 %> alert-dismissible text-left">
+				<%= messages.alert1 %>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<% } %>
+		</div>
+		<!-- </center> -->
+			
+		<div class="table-responsive table-sm table-hover">
+			<table id="tborderlist" class="table table-striped res3">
+				<thead>
+					<tr class="thead-dark" style="font-size:12px;">
+						<th scope="col" class="column-primary"> ID Pesanan </th>
+						<th scope="col"> Nama<br>Customer </th>
+						<th scope="col"> Status </th>
+						<th scope="col"> Waktu </th>
+						<th scope="col"> Store</th>
+						<th scope="col"> Delivery</th>
+						<th scope="col"> Total </th>
+						<th scope="col"> </th>
+						<th scope="col"> Aksi </th>
+					</tr>
+				</thead>
+				<tbody>
+					<% var status = []; for (r in results) { %>
+						<tr style="background-color:#ffffff;">
+							
+							<td class="mr-2 header">
+								<small>
+									<%= results[r].RECID %><br>
+								</small>
+								
+								<span class="badge badge-pill badge-primary" style="background-color:#<%= results[r].KATEGORI_COLOR %>;">
+									<small>
+										<%= results[r].KATEGORI_NAME %>
+									</small>
+								</span>
+								<br>
+								
+								<small>
+									<%= String(results[r].D_CREATED).substring(0, 24);%>
+								</small>
+								
+									<a href="#" class="more btn btn-outline-secondary btn-sm">
+										<i class="fa fa-chevron-down"></i>
+									</a>
+							</td>
+							
+							<td class="mr-2" data-header="Nama Customer">
+								<small>
+									<%= results[r].NAMA %>
+								</small>
+							</td>
+							<td class="mr-2" data-header="Status">
+								<% if(results[r].STATUS==2 && results[r].IS_VOID==0 ) { %>
+								<% } %>
+								<% if(results[r].STATUS==10 && results[r].RATING<=0 && results[r].IS_VOID==0 ) { %>
+								<% } %>
+								<small>
+									<% if(results[r].RATING>0) { for (var i=0; i<results[r].RATING; i++) { %>
+										<span class="fa fa-star checked"></span>
+									<% } %>
+									<% for (var i=results[r].RATING; i<5; i++) { %>
+										<span class="fa fa-star"></span>
+									<% } %>
+									<br>
+									"<%= results[r].ULASAN %>"
+									<br>
+									<% } %>
+								</small>
+								
+								<% if (results[r].IS_VOID==1) {
+										status[0] = "secondary";
+										status[1] = "CANCELED";
+									} else {
+										status[0] = results[r].STATUS_ALERT;
+										status[1] = results[r].STATUS_DESKRIPSI;
+								} %>
+								<span class="badge badge-pill badge-<%= status[0] %>">
+									<small>
+										<%= status[1] %>
+									</small>
+								</span>
+							</td>
+							<td class="mr-2" data-header="Waktu">
+								<% if(results[r].PICKUP_TIME!=null) { %>
+									<small>
+										<%= String(results[r].PICKUP_TIME).substring(0, 24);%>
+									</small>
+								<% } %>
+								<br>
+								<% if(results[r].ISDELIVERY==1) { %>
+									<span class="badge badge-pill badge-danger">
+										<small> DELIVERY </small>
+									</span>
+								<br>
+								<% if (results[r].DM_NIK != null ) { %>
+									<span class="badge badge-pill badge-primary">
+										<small>
+											DM: <%= results[r].DM %>
+											<br>
+											(<%= results[r].DM_NIK %>)
+										</small>
+									</span>
+								<% } %>
+								<br>
+								<% } else { %>
+									<span class="badge badge-pill badge-warning">
+										<small> PICKUP </small>
+									</span>
+								<br>
+								<% } %>
+							</td>
+							<td class="mr-1" data-header="Store">
+								<small>
+									<%= results[r].LOKASI_NAMA %>
+								</small>
+								<br>
+										
+								<% if(results[r].IS_ONLINE=='Y') { %>
+									<span class="badge badge-pill badge-primary">
+										<small> STORE ONLINE </small>
+									</span>
+									<br>
+								<% } else { %>
+									<span class="badge badge-pill badge-danger">
+										<small> STORE OFFLINE </small>
+									</span>
+									<br>
+								<% } %>
+							</td>
+							<td class="mr-2" data-header="Delivery">
+								<small>
+									<%= results[r].DELIVERY_ADDRESS %>
+								</small>
+								<br>
+								<% if(results[r].DELIVERY_NOTE) { %>
+									<small>
+										(<%= results[r].DELIVERY_NOTE %>)
+									</small>
+								<% } else { %>
+									<small>
+										<%= results[r].DELIVERY_NOTE %>
+									</small>
+								<% } %>
+							</td>
+							<td class="mr-2" style="text-align:right;" data-header="Total">
+								<small>
+									Rp&nbsp;<%= parseInt(results[r].TOTAL).toLocaleString('id-ID').split(',').join('.') %>
+								</small>
+							</td>
+							<td class="block text-left">
+								<% if(results[r].FOTO) { %>
+								<a href="<%= results[r].FOTO.replace('public','') %>" target="_blank">
+									<img src="<%= results[r].FOTO.replace('public','') %>" style="max-width:200px; max-height:100px">
+								</a>
+								<br>
+								<small>
+									<%= results[r].PENERIMA %>
+								</small>
+								<br>
+								<small>
+									<%= String(results[r].JAM_DITERIMA).substring(0, 24);%>
+								</small>
+								<% } %>
+							</td>
+							<td scope="row">
+								<!-- <div class="button-tool"> -->
+									<button class="btn btn-warning btn-block btn-sm" style="background-color:#E95D22;border:none; color:white;text-align:center" data-toggle="modal" data-target="#detailOnHand" onclick="checkStock(<%= results[r].RECID %>)">
+										<small> LIHAT </small>
+									</button>
+
+									<% if(results[r].STATUS<3 || results[r].STATUS<10) { %>
+										<a class="btn mt-3 btn-warning btn-block btn-sm btnHapus" style="background-color:#3A2D1D; border:none; color:rgb(252, 252, 247);text-align:center" href="add/<%= results[r].RECID %>">
+											<small> TAMBAH </small>
+										</a>
+										<a class="btn btn-warning btn-block btn-sm btnHapus" style="background-color:#3A2D1D; border:none; color:rgb(252, 252, 247);text-align:center" href="update/<%= results[r].RECID %>">
+											<small> EDIT </small>
+										</a>
+										<a class="btn mt-5 btn-warning btn-block btn-sm btnHapus" style="background-color:#d13c44; border:none; color:rgb(252, 252, 247);text-align:center" href="delete/<%= results[r].RECID %>">
+											<small> HAPUS </small>
+										</a>
+									<% } %>
+								<!-- </div> -->
+							</td>
+						</tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<!-- Modal-1 -->
+		<%- include('modal-1')%>	
+		<!-- Modal-2 -->
+		<%- include('modal-2') %>
+		<!-- Footer -->
+		<%- include('../part/footer') %>
+		<!-- Nav Bottom -->
+		<%- include('../part/cd-nav') %>
+    </div>
+
+<!-- Link Script  -->
+<%- include('../part/link-script') %>
+
+<!-- Logic Script -->
+<%- include('logic-dapes') %>
+</body>
+</html>

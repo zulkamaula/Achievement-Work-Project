@@ -1,0 +1,84 @@
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border:none;">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                    Detail (No Pesanan: <span id="nopesanan"></span>)
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="document.getElementById('konfbtn').disabled=true; window.location.reload();">
+                    <span aria-hidden="true"> &times; </span>
+                </button>
+            </div>
+            <div class="modal-body" style="border:none;">
+                <div id="kontenLoading">
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-success" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-warning" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-info" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-dark" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <br>
+                    <small>
+                        <i>
+                            Jika loading terlalu lama, diperkirakan ada gangguan koneksi ke store. (Store belum buka/offline).
+                        </i>
+                    </small>
+                </div>
+                <div id="kontenUpload" style="display:none;">
+                    <div id="jikaDeliv">
+                        <label> Alamat Pengantaran : </label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="alamatP" value="" disabled>
+                            <div class="input-group-append">
+                                <a class="btn btn-warning" style="background-color:#E95D22;border:none; color:white;text-align:center" id="ruteP" target="_blank">
+                                    Cek Jarak
+                                </a>
+                            </div>
+                        </div>
+                        <label> Jarak Estimasi : </label>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="nopes" name="nopes" readonly style="display:none;">
+                            <input type="text" class="form-control" id="jarakkm" name="jarakkm" placeholder="Masukkan Jarak dalam KM, angka saja (Untuk koma gunakan titik). Contoh: 1.7" onkeyup="validasiJarak();">
+                        </div>
+                        <br><br>
+                    </div>
+                        
+                    <div class="text-center center">
+                        <table id="detailTable" class="table table-sm" style="font-size:12px;">
+                            <thead>
+                                <tr>
+                                    <th scope="col"> Menu </th>
+                                    <th scope="col"> Jumlah </th>
+                                    <th scope="col"> On Hand </th>
+                                    <th scope="col" style="text-align:right;"> Harga Satuan </th>
+                                    <th scope="col" style="text-align:right;"> Total Harga </th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <button class="btn btn-warning" id="konfbtn" style="background-color:#E95D22;border:none; color:white;text-align:center" onclick="updateOngkir();$('#detailModal').modal('hide');$('#whatsappModal').modal('show');" disabled>
+                            KONFIRM PEMESANAN
+                        </button>
+                        <a class="btn btn-warning" style="background-color:#218838;border:none; color:white;text-align:center" id="waTanya" href="" target="_blank">
+                            CHAT TAMU <i class="fa fa-whatsapp whatsapp-logo"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

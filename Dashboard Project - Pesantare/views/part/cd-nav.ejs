@@ -1,0 +1,45 @@
+
+<nav class="navbar fixed-bottom navbar-expand-md navbar-dark" style="color:#ffffff; background-color:#3A2D1D;">
+	<a class="navbar-brand" href="#" id="navlogo"><img src="/img/logopesantare_w.png" height="32px"></a>
+	<% if(locals.admin){%>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" style="width:40%">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="navbar-collapse collapse" id="navbarCollapse">
+		<ul class="navbar-nav mr-auto">
+			<% if(page!=='update-cust') { %>
+            <li class="nav-item">
+				<a class="nav-link <% if(page=='home') { %> active <% } %>" href="/controlcenter/dashboard/homed">Home<span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item <% if(page=='data-customer') { %> active <% } %>">
+				<a class="nav-link" href="/controlcenter/dashboard/dapel/data-customer">Daftar Pelanggan<span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link <% if(page==='data-order') { %> active <% } %>" href="/controlcenter/dashboard/dapes/data-order">Daftar Pesanan<span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/controlcenter/clist">Kembali</a>
+			</li>
+			<% } %>
+
+			<% if(page==='update-cust') { %>
+				<li class="nav-item text-small <% if(page==='update-cust') { %> active <% } %>">
+					<a class="nav-link" href="/controlcenter/dashboard/dapel/update-data-customer">
+						Update Data Pelanggan
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-small" href="/controlcenter/dashboard/dapel/data-customer">Kembali</a>
+				</li>
+			<% } %>
+
+		</ul>
+	</div>
+	<% }%>
+	<script>
+	//  var goFS = document.getElementById("navlogo");
+	//  goFS.addEventListener("click", function() {
+	//	  document.body.requestFullscreen();
+	//  }, false);
+	</script>
+</nav>

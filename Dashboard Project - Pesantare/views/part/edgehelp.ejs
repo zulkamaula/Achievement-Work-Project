@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link href="/css/edgehelp.css" rel="stylesheet">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-12">
+            <div class="popup-btn" onclick="document.getElementById('id01').style.display='block'">
+                <a href="#id01"><small>Bantuan</small> <i class="fa fa-whatsapp whatsapp-logo"></i></a>
+            </div>
+            <div id="id01" class="modal">
+                <div class="offset-lg-8 col-lg-4 col-sm-12 col-12">
+                    <div class="modal-body">
+                        <form class="modal-content animate" id="id02">
+                            <div class="modal-header" id="id03">
+                                <h5 class="modal-title"> Bantuan </h5>
+                            </div>
+                            <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                                title="Close Modal">×</span>
+
+                            <div id="bantuan">
+                                <div class="bubble">
+                                    <img src="/img/sarirasa_logo.png" alt="Avatar" style="width:20px;">
+                                    <br>
+                                    <i><small>Selamat datang, ada yang bisa kami bantu?</small></i>
+                                </div>
+
+                                <div class="bubble darker">
+                                    <textarea style="width:100%; height:100px; border:none;" name="bcwa" id="bcwa"
+                                        placeholder="Tulis pesan..."></textarea>
+                                </div>
+
+                                <button class="btn btn-success btn-block" type="button" onclick="chatCS()">Kirim <i
+                                        class="fa fa-whatsapp whatsapp-logo"></i></button>
+                                <p style="color:gray; text-align:center;"><small><i>* Pastikan Whatsapp Anda
+                                            aktif</i></small></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function chatCS() {
+        var sessionUser = encodeURIComponent('_[Pesantare - Bantuan]_ \r\n\r\n');
+        var text = encodeURIComponent(document.getElementById('bcwa').value);
+        var url = 'https://wa.me/628119525522?text=' + sessionUser + text;
+
+        document.getElementById('id01').style.display = 'none';
+        location.replace(url);
+    }
+</script>

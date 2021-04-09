@@ -1,0 +1,223 @@
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="300" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Pesantare Sarirasa">
+<meta name="author" content="Ridho Ferdian & Sarirasa Group MIS Team">
+<meta name="msapplication-config" content="/xml/browserconfig.xml">
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+<!-- Favicons -->
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/img/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/img/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/js/manifest.json">
+<link rel="mask-icon" href="/img/favicon.ico" color="#563d7c">
+<link rel="icon" href="/img/favicon.ico">
+
+<title><%= title %></title>
+
+<link rel="canonical" href="/admin/list">
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="/css/form-validation.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/base.css">
+<!--<link rel="stylesheet" href="/css/jquery.dataTables.min.css">-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--?library alert --> 
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.all.min.js"></script>
+
+<style>
+    /* SweetAlert2 */
+    body.swal2-shown > [aria-hidden="true"] {
+    filter: blur(5px);
+    }
+
+    body > * {
+    transition: 0.1s filter linear;
+    }
+    
+    #custom-target {
+    position: relative;
+    width: 600px;
+    height: 300px;
+    border-style: solid;
+    }
+
+    .position-absolute {
+        position: absolute;
+    }
+
+    /* Akhir SA */
+
+    .table thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table tbody td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    td.details-control {
+        background: url('/img/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('/img/details_close.png') no-repeat center center;
+    }
+
+    .star-rating {
+        line-height: 60px;
+        font-size: 2em;
+    }
+
+    .star-rating .fa-star {
+        color: #FFC107;
+    }
+
+    .checked {
+        color: orange;
+    }
+
+    td.line,
+    td.price {
+        border: none;
+        border-bottom-style: none;
+        text-align: center !important;
+    }
+
+    td.pprice{
+        border-bottom-style: solid !important;
+        border-bottom-width: thin !important;
+    }
+    td.price,
+    td.pprice,
+    td.pline {
+        text-align: center;
+        /* border-bottom-style: solid; */
+    }
+
+    td.detail-pembeli {
+        border-bottom-style: none;
+        padding: 0px;
+    }
+
+    .table .thead-dark th {
+        color: #fff;
+        background-color: #3A2D1D;
+        border-color: #3A2D1D;
+    }
+    
+    span.hd {
+        visibility:hidden;
+        position: absolute;
+    }
+
+    .res3 a.more {
+        visibility: hidden;
+        position: absolute;
+    }
+
+    @media screen and (max-width: 520px) {
+	table {
+		width: 100%;
+	}
+	thead th.column-primary {
+		width: 100%;
+	}
+    th,td {
+        padding: 9% !important;
+    }
+
+	thead th:not(.column-primary) {
+		display:none;
+	}
+
+    td[scope="row"] {
+        text-align: center !important;
+    }
+    .btnLihat, .btnEdit {
+        margin-left: 2%;
+        margin-right: 2%;
+        padding-left: 15%;
+        padding-right: 15%;
+    }
+
+    td[scope="row"] a:hover, td[scope="row"] button:hover {
+        box-shadow: #16161642 0px 0px 0px 3px ;
+    }
+	
+	td {
+		display: block;
+		width: auto;
+		text-align: right !important;
+	}
+	thead th::before {
+		text-transform: uppercase;
+		font-weight: bold;
+		content: attr(data-header);
+	}
+	thead th:first-child span {
+		display: none;
+	}
+	td::before {
+		float: left;
+		text-transform: uppercase;
+        font-size: 10px;
+		font-weight: bold;
+		content: attr(data-header);
+	}
+    /* Collapsed */
+    .res3 a.more {
+        visibility: visible;
+        position: relative;
+		display: inline-block;
+        float: right;
+	}
+	
+	.res3 .expanded td:nth-child(n+2) {
+		display: block;
+	}
+	
+	.res3 td:nth-child(n+2) {
+		display: none;
+	}
+    /* Table Modal */
+    td.line,
+    td.price {
+        border: none;
+        border-bottom-style: none;
+        font-size: 0.6rem;
+    }
+
+    td.pline, td.pprice {
+        /* text-align: left !important; */
+        border-bottom-style: none;
+        font-size: 0.6rem;
+    }
+    span.hd {
+        visibility:visible;
+        float:left;
+        font-weight: bold;
+        position: relative;
+    }
+    td.header {
+        text-align: left !important;
+    }
+/* 
+    td.price,
+    td.pprice {
+        text-align: right;
+    } */
+}
+</style>
