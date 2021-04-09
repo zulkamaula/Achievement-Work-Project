@@ -1,0 +1,176 @@
+<script>
+	$(document).ready(function() {
+	$('a.more').click(function() {
+	
+		// Toggle Class
+		$tr = $(this).parent().parent();
+		$tr.toggleClass('expanded');
+		
+		// Tampilkan - sembunyikan baris
+		$i = $(this).children('i');
+		$i.removeClass('fa-chevron-down', 'fa-chevron-up');
+		var arrow = $tr.hasClass('expanded') ? 'fa-chevron-up' : 'fa-chevron-down';
+		$i.addClass(arrow);
+		
+		return false;
+	});
+})
+</script>
+<script>
+	$(document).ready(function() {
+		$('#tborderlist').DataTable({
+			"order": [[ 0, "desc" ]],
+			"pagingType" : "numbers",
+			"language": {
+			"sProcessing": "Sedang memproses...",
+			"sLengthMenu": "_MENU_ data per halaman",
+			"sZeroRecords": "Tidak ditemukan data yang sesuai",
+			"sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+			"sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+			"sInfoFiltered": "(disaring dari _MAX_ data keseluruhan)",
+			"sInfoPostFix": "",
+			"sSearch": "Cari:",
+			"sUrl": "",
+			"oPaginate": {
+			"sFirst": "Pertama",
+			"sPrevious": "Sebelumnya",
+			"sNext": "Selanjutnya",
+			"sLast": "Terakhir"
+			}
+			}
+		});
+	});
+</script>
+<script>
+	var myReload;
+	myReload = setTimeout(function() {
+		window.location.reload(true);
+	}, 300000);
+	function stopReload() {
+		clearTimeout(myReload);
+	}
+</script>
+<script>
+	// MODAL SHOW
+	function detailCustomer(headerid) {
+		console.log("headerid: " + headerid);
+		var formData = new FormData();
+		formData.append('headerid', headerid);
+		fetch('/controlcenter/dashboard/dapel/detail-data-customer', {
+			method: 'POST',
+			body: formData
+			})
+		.then((response) => response.text())
+		.then((result) => {
+			var rs = JSON.parse(result);
+            console.log(rs);
+			var crow=1;
+			var table = document.getElementById("onhandTable");
+			console.log("Result: ");
+			console.log(rs);
+			console.log(rs.length);
+			console.log(typeof(rs));
+			console.log("HAHHAHA");
+			
+			var row;
+			var cell1;
+			var cell2;
+			var cell3;
+			var cell4;
+			for (var r in rs) {
+				row = table.insertRow(crow);
+				cell1 = row.insertCell(0);
+				cell2 = row.insertCell(1);
+				cell3 = row.insertCell(2);
+				cell4 = row.insertCell(3);
+				cell1.className = 'pline';
+				cell2.className = 'pline';
+				cell3.className = 'pprice';
+				cell4.className = 'pprice';
+				cell1.innerHTML = "<span class='hd'>Nama Customer</span>" + rs[r].NAMA;
+				cell2.innerHTML = "<span class='hd'>No. Telp</span>" + rs[r].TELP + "<br><small class='badge badge-pill badge-success'>WhatsApp Available</small>";
+				if(rs[r].EMAIL!=null) {
+					cell3.innerHTML = "<span class='hd'>E-mail</span>" + rs[r].EMAIL;
+				} else {
+					cell3.innerHTML = "<span class='hd'>E-mail</span>" + "<i class='text-muted'> Tidak Di Isi </i>";
+				}
+				cell4.innerHTML = "<span class='hd'>Plat Kendaraan</span>" + rs[r].PLAT;
+				crow++;
+			} 
+                row = table.insertRow(crow++);
+                cell1 = row.insertCell(0);
+                cell2 = row.insertCell(1);
+                cell3 = row.insertCell(2);
+                cell4 = row.insertCell(3);
+                cell1.className = 'line';
+                cell2.className = 'line';
+                cell3.className = 'price';
+                cell4.className = 'price';
+				
+                cell1.innerHTML = '<strong>Alamat</strong>';
+				if(rs[r].ALAMAT!=null) {
+					cell2.innerHTML = rs[r].ALAMAT;
+				} else {
+					cell2.innerHTML = "<i class='text-muted'> Tidak Di Isi </i>";
+				}
+
+				cell3.innerHTML = '<strong>Member ID</strong>';
+				if(rs[r].MEMBER_ID!=null) {
+					cell4.innerHTML = "<small class='badge badge-pill badge-warning'>" + rs[r].MEMBER_ID + "</small>";
+				} else {
+					cell4.innerHTML = "<i class='text-muted'>Tidak Ada </i>";
+				}
+
+                
+			document.getElementById("noCustomerOnHand").innerHTML=rs[0].RECID;
+			document.getElementById("onhandLoading").style.display="none";
+			document.getElementById("customerOnHandUpload").style.display="block";
+		})
+
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+	}
+</script>
+<script>
+	// Hard-coded, replace with your public key
+	const publicVapidKey = 'BNss_FEH6mVemCQR2wl2cvlaIhDo-4k6cEG9z3Uuh6GcJ8K_ZIQvE6FgFcYOTsZT88Pxy4ksd5E41e8gtp3JcBg';
+	
+	if ('serviceWorker' in navigator) {
+		run().catch(error => console.error(error));
+	}
+	
+	async function run() {
+		const registration = await navigator.serviceWorker.
+			register('/worker.js', {scope: '/'});
+		
+		const subscription = await registration.pushManager.
+			subscribe({
+				userVisibleOnly: true,
+				applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+			});
+			
+			await fetch('/pingpong/'+ status1 +'/'+ status2 +'/'+ status3 +'/'+ status4 +'/'+ status5 +'/'+ status10 +'/'+ svoid, {
+			method: 'POST',
+			body: JSON.stringify(subscription),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
+	
+	function urlBase64ToUint8Array(base64String) {
+		const padding = '='.repeat((4 - base64String.length % 4) % 4);
+		const base64 = (base64String + padding)
+			.replace(/-/g, '+')
+			.replace(/_/g, '/');
+		
+		const rawData = window.atob(base64);
+		const outputArray = new Uint8Array(rawData.length);
+		
+		for (let i = 0; i < rawData.length; ++i) {
+			outputArray[i] = rawData.charCodeAt(i);
+		}
+		return outputArray;
+	}
+</script>

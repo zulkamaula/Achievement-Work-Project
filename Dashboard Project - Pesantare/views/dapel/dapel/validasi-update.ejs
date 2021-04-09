@@ -1,0 +1,109 @@
+<script>
+    $(document).ready(function () {
+        // Validasi Nama Pelanggan
+        $('#namacust').keyup(function () {
+            var nama_cust = $('#namacust').val();
+                if (nama_cust.length <= 3) {
+                    Swal.fire ({
+                        title: 'Nama terlalu pendek!',
+                        target: '#custom-target',
+                        showConfirmButton: false,
+                        timer: 2200,
+                        icon: 'error',
+                        timerProgressBar: true,
+                        toast: true,
+                        position: 'top-right',
+                        customClass: { container: 'position-absolute' },
+                        });
+                    $(this).css('borderColor', 'rgba(250,0,255,0.5)');
+                    $('#update').attr('disabled', true);
+                } else if (nama_cust.match(/[0-9]/)) {
+                    Swal.fire ({
+                        title: 'Nama harus dengan huruf [a-z/A-Z]',
+                        target: '#custom-target',
+                        showConfirmButton: false,
+                        timer: 2200,
+                        icon: 'error',
+                        timerProgressBar: true,
+                        customClass: { container: 'position-absolute' },
+                        toast: true,
+                        position: 'center-right',
+                        });
+                    $(this).css('borderColor', '#ff0000');
+                    $('#update').attr('disabled', true);
+                } else if (nama_cust.match(/[0-9]/)) {
+                    Swal.fire ({
+                        title: 'Nama harus dengan huruf [a-z/A-Z]',
+                        target: '#custom-target',
+                        showConfirmButton: false,
+                        timer: 2200,
+                        icon: 'error',
+                        timerProgressBar: true,
+                        toast: true,
+                        position: 'top-left',
+                        customClass: { container: 'position-absolute' },
+                        });
+                    $(this).css('borderColor', '#ff0000');
+                    $('#update').attr('disabled', true);
+                } else { 
+                    $('#update').prop('disabled', false); 
+                }
+        });
+
+        // Validasi From dan mengirim Data
+        $('#update').click(function() {
+            // var nama_cust = $('#namacust').val();
+            // // const href = $(this).attr('href');
+            const href = ('/controlcenter/dashboard/dapel/data-customer');
+
+            // if(nama_cust >= 4) {
+                Swal.fire({
+                    title: 'Berhasil Update!',
+                    text: 'Data customer berhasil di edit.',
+                    icon: 'success',
+                    confirmButtonColor: '#E95D22',
+                    confirmButtonText: 'Ok!'
+                }).then((result) => {
+                    document.location.href = href;
+                });
+            // }
+        });
+    });
+</script>
+<script>
+    // Self-executing function
+    // (function () {
+    //     'use strict';
+    //     window.addEventListener('load', function () {
+    //         // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    //         var forms = document.getElementsByClassName('needs-validation');
+    //         // Loop over them and prevent submission
+    //         var validation = Array.prototype.filter.call(forms, function (form) {
+
+    //             form.classList.add('was-validated');
+    //             let namacust = document.querySelector("#namacust").value;
+
+    //             form.addEventListener('submit', function (event) {
+    //                 if (form.checkValidity() === false) {
+    //                     event.preventDefault();
+    //                     event.stopPropagation();
+    //                 } else {
+    //                         // const href = $(this).attr('href');
+
+    //                         Swal.fire({
+    //                             title: 'Berhasil Update!',
+    //                             text: 'Data customer berhasil di edit.',
+    //                             icon: 'success',
+    //                             confirmButtonColor: '#E95D22',
+    //                             confirmButtonText: 'Ok!'
+    //                         }).then((result) => {
+    //                             // document.location.href = href;
+    //                             document.location.reload();
+    //                         });
+    //                 }
+    //             }, false);
+    //         });
+
+    //     }, false);
+    // })();
+</script>
