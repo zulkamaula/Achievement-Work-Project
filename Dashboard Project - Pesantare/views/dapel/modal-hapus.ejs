@@ -1,0 +1,29 @@
+<div class="modal fade" id="hapusCustomer" tabindex="-1" role="dialog" aria-labelledby="hapusCustomerTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border:none;">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                    Hapus (No Customer : <%= results[r].RECID %> )!?
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload();">
+                    <span aria-hidden="true"> &times; </span>
+                </button>
+            </div>
+            <div class="modal-body text-center center" style="border:none;">
+                Anda yakin ingin menghapus Customer dengan No.ID <strong>(<%= results[r].RECID %>)</strong> ?!
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" style="background-color:#d13c44; border:none; color:rgb(252, 252, 247);text-align:center" onclick="hapus_cust(<%= results[r].RECID %>)">
+                    <small> HAPUS </small>
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <hr>
+                <br>
+                <small class="text-muted">
+                    (!) Halaman ini akan ditutup secara otomatis
+                </small>
+            </div>
+           
+        </div>
+    </div>
+</div>
