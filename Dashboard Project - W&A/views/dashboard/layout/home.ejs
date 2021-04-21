@@ -6,7 +6,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-<div class="wrapper">
+<div class="wrapper mt-5">
 
     <!--** Navbar -->
     <%- include('../partials/navbar'); %>
@@ -17,39 +17,36 @@
     <!--** /.sidebar -->
 
     <!--** Content Wrapper. Contains page content -->
-    <main role="main" class="container">
+    <main role="main" class="container mt-5" id="greeting-main">
         <div class="jumbotron bg-white">
             <p>
                 <img class="img-fluid mx-auto d-block" alt="Responsive image" src="/img/logo.png">
             </p>
         </div>
         <hr>
-        <p class="lead text-sm text-center text-muted">Selamat datang di Home Dashboard,    
-		<!-- <p class="text-center" style="color:#C79645" id="nik"> -->
-            <span style="color:#c79645" id="nik">
-                    <b>
-                        <%= locals.nik %>
-                        &nbsp;-&nbsp;
-                        <% if(locals.kcabang!=null) { %>
-                                (<%= locals.ncabang %>) 
-                        <%} else {%> 
-                                <%= locals.nama %>
-                                (<%= locals.ndivisi %>) 
-                        <% } %>
-                    </b>
-            </span>
-        </p> 
+        <div class="lead text-sm text-center text-muted" id="greeting">
+            <p>
+                Selamat datang di Home Dashboard,
+            </p>
+            <p style="color:#c79645" id="nik">
+                <b>
+                    <%= locals.nik %>
+                    &nbsp;-&nbsp;
+                    <% if(locals.kcabang!=null) { %>
+                            (<%= locals.ncabang %>) 
+                    <%} else {%> 
+                            <%= locals.nama %>
+                            (<%= locals.ndivisi %>) 
+                    <% } %>
+                </b>
+            </p>
+        </div>
+        
     </main>
     <!--** /.content-wrapper -->
 
   <!--** Footer & Script -->
   <!--** /.footer -->
-
-    <!-- Control Sidebar -->
-    <!-- <aside class="control-sidebar control-sidebar-dark"> -->
-        <!-- Control sidebar content goes here -->
-    <!-- </aside> -->
-    <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
 
