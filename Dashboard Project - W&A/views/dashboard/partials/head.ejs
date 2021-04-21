@@ -4,7 +4,7 @@
 <!-- Tell the browser to be responsive to screen width -->
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <!-- Font Awesome -->
-<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+<link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css" />
 <!-- DataTables -->
 <link
   rel="stylesheet"
@@ -32,3 +32,77 @@
 <link rel="icon" href="/img/favicon.ico" />
 <meta name="msapplication-config" content="/xml/browserconfig.xml" />
 <meta name="theme-color" content="#f5f5f5" />
+<style>
+  #d-index {
+    background-color: #fdf3e3;
+  }
+  .smart-scroll{
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+    }
+    .scrolled-down{
+      transform:translateY(-100%); transition: all 0.3s ease-in-out;
+    }
+    .scrolled-up{
+      transform:translateY(0); transition: all 0.3s ease-in-out;
+    }
+
+    #greeting p {
+        display: block;
+    }
+
+    #greeting-main {
+      margin-top: 40% !important;
+    }
+
+    .chart-container canvas {
+      position: relative;
+      margin: auto;
+      height: 25vh !important;
+      width: 85vw !important;
+    }
+
+    #card-title-detail span {
+      display: block !important;
+      margin-bottom: 3%;
+      font-size: 80%;
+    }
+
+    h6#status {
+      display: inline-block !important;
+      font-size: 90%;
+    }
+
+    @media screen and (min-width: 420px) {
+
+      #greeting p {
+        display: inline;
+      }
+      
+      #card-title-detail span {
+      display: inline !important;
+      margin-bottom: 0%;
+      font-size: 100%;
+      }
+
+      h6#status {
+      display: block !important;
+      font-size: 100%;
+      }
+
+      .chart-container canvas {
+      position: relative;
+      margin: auto;
+      height: 70vh !important;
+      width: 63vw !important;
+    }
+
+      #greeting-main {
+      margin-top: 0% !important;
+    }
+      
+    }
+</style>
