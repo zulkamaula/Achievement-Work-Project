@@ -5,7 +5,7 @@
     <%- include('../partials/head'); %>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse" id="d-index">
     <div class="wrapper">
 
         <!--** Navbar -->
@@ -76,19 +76,21 @@
                             <!--** CARD HEADER TABLE  -->
                             <div class="card">
                                 <div class="card-header" style="color:#663d45c9; background-color:#fdf3e3c9;">
-                                    <h3 class="card-title">
+                                    <h3 class="card-title" id="card-title-detail">
                                         <b>
                                             DETAIL STORE POINT
                                         </b>
                                         &nbsp;
-                                        <i class="fas fa-arrow-right"></i>
-                                        &nbsp;
-                                        <%= rs.walkthru[0].STORE_NAME %> &nbsp;:&nbsp;
-                                        <u>
-                                            <%= rs.walkthru[0].YEAR + ' - ' + rs.walkthru[0].MONTH + ' - ' + rs.walkthru[0].DATE %>
-                                        </u>
+                                        <span>
+                                            <i class="fas fa-arrow-right"></i>
+                                            &nbsp;
+                                            <%= rs.walkthru[0].STORE_NAME %> &nbsp;:&nbsp;
+                                            <u>
+                                                <%= rs.walkthru[0].YEAR + ' - ' + rs.walkthru[0].MONTH + ' - ' + rs.walkthru[0].DATE %>
+                                            </u>
+                                        </span>
                                     </h3>
-                                    <h6 class="text-md-right">
+                                    <h6 class="text-md-right" id="status">
                                         Assesment By &nbsp; : &nbsp;
                                         <span class="badge badge-pill badge-success mt-2">
                                             Walkthru
@@ -114,7 +116,7 @@
                                                                     <tr role="row"
                                                                         style="color: #663d45; background-color: #ca9746c4;">
                                                                         <th>NO.</th>
-                                                                        <th>ID GROUP
+                                                                        <th>ID GROUP <br>
                                                                             <small style="font-size: .7em;">
                                                                                 & DESCRIPTION
                                                                             </small>
@@ -150,7 +152,7 @@
                                                                     <tr
                                                                         style="color: #663d45; background-color: #ca9746c4;">
                                                                         <th>NO.</th>
-                                                                        <th>ID GROUP
+                                                                        <th>ID GROUP <br>
                                                                             <small style="font-size: .7em;">
                                                                                 & DESCRIPTION
                                                                             </small>
@@ -192,19 +194,21 @@
                                 <!--** CARD HEADER TABLE  -->
                                 <div class="card">
                                     <div class="card-header" style="color:#663d45c9; background-color:#fdf3e3c9;">
-                                        <h3 class="card-title">
+                                        <h3 class="card-title"  id="card-title-detail">
                                             <b>
                                                 DETAIL STORE POINT
                                             </b>
                                             &nbsp;
-                                            <i class="fas fa-arrow-right"></i>
-                                            &nbsp;
-                                            <%= rs.audit[0].STORE_NAME %> &nbsp;:&nbsp;
-                                            <u>
-                                                <%= rs.audit[0].YEAR + ' - ' + rs.audit[0].MONTH + ' - ' + rs.audit[0].DATE %>
-                                            </u>
+                                            <span>
+                                                <i class="fas fa-arrow-right"></i>
+                                                &nbsp;
+                                                <%= rs.audit[0].STORE_NAME %> &nbsp;:&nbsp;
+                                                <u>
+                                                    <%= rs.audit[0].YEAR + ' - ' + rs.audit[0].MONTH + ' - ' + rs.audit[0].DATE %>
+                                                </u>
+                                            </span>
                                         </h3>
-                                        <h6 class="text-md-right">
+                                        <h6 class="text-md-right" id="status">
                                             Assesment By &nbsp; : &nbsp;
                                             <span class="badge badge-pill badge-primary mt-2">
                                                 Audit
@@ -230,7 +234,7 @@
                                                                         <tr role="row"
                                                                             style="color: #663d45; background-color: #ca9746c4;">
                                                                             <th>NO.</th>
-                                                                            <th>ID GROUP
+                                                                            <th>ID GROUP <br>
                                                                                 <small style="font-size: .7em;">
                                                                                 & DESCRIPTION
                                                                                 </small>
@@ -266,7 +270,7 @@
                                                                         <tr
                                                                             style="color: #663d45; background-color: #ca9746c4;">
                                                                             <th>NO.</th>
-                                                                            <th>ID GROUP
+                                                                            <th>ID GROUP <br>
                                                                                 <small style="font-size: .7em;">
                                                                                 & DESCRIPTION
                                                                                 </small>
@@ -344,6 +348,29 @@
                 });
             });
         </script>
+        
+        <!-- ** NAVBAR AUTO-COLLAPSED -->
+        <script>
+            // add padding top to show content behind navbar
+        $('body').css('padding-top', $('.navbar').outerHeight() + 'px');
+        
+        // detect scroll top or down
+        if ($('#masthead').length > 0) { 
+            // check if element exists
+            var last_scroll_top = 0;
+            $(window).on('scroll', function() {
+                scroll_top = $(this).scrollTop();
+                if(scroll_top < last_scroll_top) {
+                    $('#masthead').removeClass('scrolled-down').addClass('scrolled-up');
+                }
+                else {
+                    $('#masthead').removeClass('scrolled-up').addClass('scrolled-down');
+                }
+                last_scroll_top = scroll_top;
+            });
+        }
+        </script>
+        <!--** AKHIR NAVBAR AUTO-COLLAPSED  -->
 
 </body>
 
