@@ -14,4 +14,13 @@ Tech What I Used :
 - Chart.JS
 - Bootstrap & JQuery
 
+#### Name Project : Pesantare Dashboard
+https://user-images.githubusercontent.com/74296102/115684246-670dd300-a381-11eb-9c5c-e1f5fb538382.mp4
 
+Tech What I Used :
+- Node.JS
+- Express.JS
+- Bootstrap & JQuery
+- SweetAlert2
+- EJS
+- MySql (Firebird)
