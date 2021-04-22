@@ -12,7 +12,7 @@ Tech What I Used :
 - Chart.JS
 - Bootstrap & JQuery
 
-### Folder : https://github.com/zulkamaula/Achievement-Work-Project/tree/main/Dashboard%20Project%20-%20W%26A
+##### Folder : https://github.com/zulkamaula/Achievement-Work-Project/tree/main/Dashboard%20Project%20-%20W%26A
 
 
 ## DEMPROG : Pesantare Dashboard
@@ -26,4 +26,4 @@ Tech What I Used :
 - EJS
 - MySql (Firebird)
 
-### Folder : https://github.com/zulkamaula/Achievement-Work-Project/tree/main/Dashboard%20Project%20-%20Pesantare
+##### Folder : https://github.com/zulkamaula/Achievement-Work-Project/tree/main/Dashboard%20Project%20-%20Pesantare
