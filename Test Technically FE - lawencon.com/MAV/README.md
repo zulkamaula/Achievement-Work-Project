@@ -1,8 +1,7 @@
 # MAV - MovieVueApp!
 ### REPO : https://github.com/zulkamaula/MAV---Movie-Vue-App
 
-## The result app to show list of movies is already on site! 
-## In this link : https://mymav.netlify.app/
+## The result app to show list of movies is already on site : https://mymav.netlify.app/
 
 ##### The technology i've used to built it :
 - HTML5, CSS3, JAVASCRIPT
